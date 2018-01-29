@@ -1,7 +1,7 @@
 {
-  "name": "BlueLineDesign",
+  "name": "BoilerPlate",
   "version": "1.0.0",
-  "description": "A small commercial production company's website",
+  "description": "A simple boilerplate ready for development",
   "main": "index.js",
   "author": "Jesse Barron",
   "license": "MIT",
