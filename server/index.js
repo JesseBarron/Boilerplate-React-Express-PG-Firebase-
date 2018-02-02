@@ -15,8 +15,18 @@ module.exports = app
 
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
-app.use(passport.initialize())
-app.use(passport.session())
+//Passport Registration (Must be done before the rest of the setup)
+passport.serializeUser((user, done) => done(null, user.id))
+passport.deserializeUser(async (userID, done) => {
+  try {
+    const foundUser = await db.models.user.findById(userID)
+    done(null, foundUser)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
 
 //Creates the server
 const createApp = () => {
@@ -24,7 +34,7 @@ const createApp = () => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({extended: true}))
 
-  //Express Session Set-up
+  //Session Setup (Before we initialize passport and passport.session())
   app.use(session({
     secret: process.env.SESSION_SECRET || 'Shhhhh keep this secret',
     resave: false,
@@ -32,15 +42,14 @@ const createApp = () => {
     saveUninitialized: false
   }))
 
-  //Passport Registration
-  passport.serializeUser((user, done) => done(null, user.id)) //Sets userId to the req.user
-  passport.deserializeUser((user, done) => done(null, user.id)) //Finds the user in our database
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   //Routes to the authentication routes
   app.use('/auth', require('./auth'))
 
   //Routes to the API routes
-
+  app.use('/api', require('./api'))
   app.use(express.static(path.join(__dirname, '..', 'public')))
   .use((req, res, next) => {
       if (path.extname(req.path).length) {

@@ -1,7 +1,7 @@
 {
-  "name": "BoilerPlate",
+  "name": "boilerplate",
   "version": "1.0.0",
-  "description": "A simple boilerplate ready for development",
+  "description": "A boilerplate for postgres",
   "main": "index.js",
   "author": "Jesse Barron",
   "license": "MIT",
@@ -11,7 +11,8 @@
     "build-watch": "webpack --watch",
     "test": "NODE_ENV='test'",
     "start-dev": "yarn run build-watch & yarn run start-server ",
-    "start-server": "NODE_ENV='development' nodemon server -e html,js,scss, --ignore public"
+    "start-server": "NODE_ENV='development' nodemon server -e html,js,scss, --ignore public",
+    "test-server": "NODE_ENV='test' PG_URL='postgres://localhost:5432/TEST_DATABASE' mocha server/**/*.spec.js server/**/**/*.spec.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -62,6 +63,7 @@
     "sass-loader": "^6.0.6",
     "sinon": "^4.2.0",
     "style-loader": "^0.19.1",
+    "supertest": "^3.0.0",
     "webpack": "^3.10.0",
     "webpack-livereload-plugin": "^1.0.0"
   }

@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 const crypto = require('crypto')
 
 
-const User = db.define('user', {
+const Admin = db.define('admin', {
   firstName: {
     type: Sequelize.STRING
   },
@@ -21,29 +21,30 @@ const User = db.define('user', {
     unique: true,
     allowNull: false
   },
-  twitterID: {
+  twitterId: {
     type: Sequelize.STRING
   },
-  facebookID: {
+  facebookId: {
     type: Sequelize.STRING
   },
-  googleID: {
+  googleId: {
     type: Sequelize.STRING
   },
-  InstagramID: {
+  InstagramId: {
     type: Sequelize.STRING
   },
+  // Room For some Privileges
 })
 
-User.prototype.correctPassword = function(candidate) {
-  return User.encryptPassword(candidate, this.salt) === this.password
+Admin.prototype.correctPassword = function(candidate) {
+  return Admin.encryptPassword(candidate, this.salt) === this.password
 }
 
-User.generateSalt = function() {
+Admin.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }
 
-User.encryptPassword = function (text, salt) {
+Admin.encryptPassword = function (text, salt) {
   return crypto
           .createHash('RSA-SHA256')
           .update(text)
@@ -53,12 +54,12 @@ User.encryptPassword = function (text, salt) {
 
 const saveSaltAndPassword = user => {
   if (user.changed('password')) {
-    user.salt = User.generateSalt()
-    user.password = User.encryptPassword(user.password, user.salt)
+    user.salt = Admin.generateSalt()
+    user.password = Admin.encryptPassword(user.password, user.salt)
   }
 }
 
-User.beforeCreate(saveSaltAndPassword)
-User.beforeUpdate(saveSaltAndPassword)
+Admin.beforeCreate(saveSaltAndPassword)
+Admin.beforeUpdate(saveSaltAndPassword)
 
-module.exports = User
+module.exports = Admin

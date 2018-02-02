@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import {
-  User
+  user
 } from './reducers'
 
 const logger = createLogger({
@@ -12,7 +12,7 @@ const logger = createLogger({
 const middleware = composeWithDevTools(applyMiddleware(logger, thunk))
 
 const reducers = combineReducers({
-  User
+  user
 })
 const store = createStore(reducers, middleware)
 

@@ -7,7 +7,9 @@ import history from './history'
 import {
   LandingPage,
   PageNotFound,
-  DragAndDrop
+  DragAndDrop,
+  Login,
+  Signup
 } from './screens'
 
 import {
@@ -21,6 +23,8 @@ const Routes = () => {
         <Switch>
           <Route exact path="/" component={ LandingPage } />
           <Route path="/DragAndDrop" component={ DragAndDrop } />
+          <Route path="/login" component={ Login } />
+          <Route path="/signup" component={ Signup } />
           <Route path="*" component={ PageNotFound } />
         </Switch>
       </App>
